@@ -13,6 +13,7 @@ public interface IEmployeeService {
 	
 	// Sort
 	List<Employee> getAllEmployeesInSortingOrder(String field);
+	
 	// Pagination
 	Page<Employee> getAllEmployeesWithPagination(int offset, int pageSize);
 	

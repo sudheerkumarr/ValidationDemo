@@ -52,6 +52,7 @@ public class EmployeeController {
 	}
 
 	// Pagination & Sorting
+	// ex: http://localhost:8080/employees/paginationAndSort/0/3/empId
 	@GetMapping("/employees/paginationAndSort/{offset}/{pageSize}/{field}")
 	ResponseEntity<Page<Employee>> getAllEmployeesWithPaginationAndSorting(@PathVariable("offset") int offset,
 			@PathVariable("pageSize") int pageSize, @PathVariable("field") String field) {

@@ -110,10 +110,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public List<Employee> getAllEmployeesInSortingOrder(String field) {
 		// Sorting in asc order 
-		List<Employee> employeeList = empRepo.findAll(Sort.by(Direction.ASC, field));
+		//List<Employee> employeeList = empRepo.findAll(Sort.by(Direction.ASC, field));
 		
 		// Sorting in desc order
-		//List<Employee> employeeList = empRepo.findAll(Sort.by(Direction.DESC, field));
+		List<Employee> employeeList = empRepo.findAll(Sort.by(Direction.DESC, field));
 		return employeeList;
 	}
 	
@@ -126,7 +126,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return employees;
 	}
 	
-	
+	// Pagination & Sorting
 
 	@Override
 	public Page<Employee> getAllEmployeesWithPaginationAndSorting(int offset, int pageSize, String field) {

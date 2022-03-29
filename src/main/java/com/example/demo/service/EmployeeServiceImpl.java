@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.bean.Employee;
 import com.example.demo.exception.EmployeeNotFoundException;
 import com.example.demo.repository.IEmployeeRepository;
+
 
 @Service
 public class EmployeeServiceImpl implements IEmployeeService {
@@ -92,13 +97,41 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public void deleteEmp(int empId) {
-		// TODO Auto-generated method stub
+		
 		Optional<Employee> opt = empRepo.findById(empId);
 		if(!opt.isPresent()) {
 			throw new EmployeeNotFoundException("Employee not found with given id "+ empId);
 		}
 		empRepo.deleteById(empId);
 		
+	}
+
+	// Sorting in Asc/Desc order
+	@Override
+	public List<Employee> getAllEmployeesInSortingOrder(String field) {
+		// Sorting in asc order 
+		List<Employee> employeeList = empRepo.findAll(Sort.by(Direction.ASC, field));
+		
+		// Sorting in desc order
+		//List<Employee> employeeList = empRepo.findAll(Sort.by(Direction.DESC, field));
+		return employeeList;
+	}
+	
+	// Pagination
+	// ex : http://localhost:8080/employees/pagination/0/2 - 1st page, 2 records 
+	//      http://localhost:8080/employees/pagination/1/2 - 2nd page, 2 records
+	
+	public Page<Employee> getAllEmployeesWithPagination(int offset, int pageSize) {
+		Page<Employee> employees = empRepo.findAll(PageRequest.of(offset, pageSize));
+		return employees;
+	}
+	
+	
+
+	@Override
+	public Page<Employee> getAllEmployeesWithPaginationAndSorting(int offset, int pageSize, String field) {
+		Page<Employee> employees = empRepo.findAll(PageRequest.of(offset, pageSize).withSort(Sort.Direction.ASC, field));
+		return employees;
 	}
 	
 	
